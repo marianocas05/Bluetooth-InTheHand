@@ -54,16 +54,10 @@
                 <!-- Estado da conexão -->
                 <Label x:Name="ConnectionStatusLabel"
                        FontSize="18"
-                       Text="Status: Connected"
+                       Text="Status: Disconnected"
                        TextColor="White"
                        HorizontalOptions="Center"/>
 
-                <!-- Estado da bateria -->
-                <Label x:Name="BatteryStatusLabel"
-                       FontSize="18"
-                       Text="Battery: 100%"
-                       TextColor="White"
-                       HorizontalOptions="Center"/>
             </StackLayout>
         </Grid>
     </ScrollView>

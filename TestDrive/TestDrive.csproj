@@ -60,9 +60,17 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="InTheHand.Bluetooth.Permissions" Version="8.0.2" />
+		<PackageReference Include="InTheHand.BluetoothLE" Version="4.0.37" />
 		<PackageReference Include="InTheHand.Net.Bluetooth" Version="4.1.44" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="DeviceInfoPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	</ItemGroup>
 
 </Project>

@@ -19,7 +19,7 @@ public partial class MainPage : ContentPage
     {
         base.OnDisappearing();
 
-        // Fechar recursos Bluetooth e fluxo
+        //Fechar recursos Bluetooth e fluxo
         if (stream is not null)
         {
             stream.Dispose();
@@ -36,16 +36,17 @@ public partial class MainPage : ContentPage
     {
         try
         {
-            // Mostrar os dispositivos
+            ConnectionStatusLabel.Text = "Status: Connecting...";
+
+            //Usar o BluetoothDevicePicker para escolher um dispositivo compatível
             var picker = new BluetoothDevicePicker();
             picker.ClassOfDevices.Add(new ClassOfDevice(DeviceClass.AudioVideoUnclassified, ServiceClass.Audio));
-            device = await picker.PickSingleDeviceAsync();
 
+            //Tentar selecionar um dispositivo
+            device = await picker.PickSingleDeviceAsync();
             if (device != null)
             {
-                await DisplayAlert("Found device", $"Connecting to device {device.DeviceName}...", "OK");
-
-                // Emparelhar se necessário
+                //Verificar se o dispositivo já está emparelhado, caso contrário, emparelhar
                 if (!device.Authenticated)
                 {
                     bool paired = BluetoothSecurity.PairRequest(device.DeviceAddress, null);
@@ -56,32 +57,64 @@ public partial class MainPage : ContentPage
                     }
                 }
 
-                // Conectar ao dispositivo
-                client.Connect(device.DeviceAddress, BluetoothService.SerialPort);
+                //Conectar ao dispositivo via HFP (única forma que deu)
+                client.Connect(device.DeviceAddress, BluetoothService.Handsfree);
                 if (client.Connected)
                 {
                     stream = client.GetStream();
-                    await DisplayAlert("Connecting", "Connection successful!", "OK");
+                    await DisplayAlert("Success", "Connection successful!", "OK");
+
+                    ConnectionStatusLabel.Text = "Status: Connected";
+
+                    //Iniciar o loop de leitura do stream de bytes diretamente
+                    //await Task.Run(() => StreamLoop());
+
+                    await Navigation.PushAsync(new DeviceInfoPage(device));
+
+
                 }
                 else
                 {
-                    await DisplayAlert("Error", "It wasn't possible to connect to the device", "OK");
+                    ConnectionStatusLabel.Text = "Status: Disconnected";
+                    await DisplayAlert("Error", "Unable to connect to the device.", "OK");
                 }
             }
             else
             {
-                await DisplayAlert("No device", "No device selected.", "OK");
+                ConnectionStatusLabel.Text = "Status: Disconnected";
+                await DisplayAlert("No Device", "No device was selected or found.", "OK");
             }
         }
         catch (Exception ex)
         {
-            await DisplayAlert("Error", $"Ocorreu um erro: {ex.Message}", "OK");
+            await DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+            Debug.WriteLine($"Error: {ex.Message}");
         }
     }
-}
 
-// Após tentar connectar aos meus fones aparece:
-// Ocorreu um erro: One or more errors occured.
-// (Specific argument was out of the range of valid issues. (Prameter 'index'))
+    //private void StreamLoop()
+    //{
+    //    // Exemplo de loop de leitura do stream de bytes
+    //    try
+    //    {
+    //        byte[] buffer = new byte[1024]; 
+    //        while (stream != null && stream.CanRead)
+    //        {
+    //            int bytesRead = stream.Read(buffer, 0, buffer.Length); // Lê bytes diretamente do stream
+    //            if (bytesRead > 0)
+    //            {
+    //                // Processar os bytes lidos
+    //                Debug.WriteLine($"Received {bytesRead} bytes");
+    //                // Adicionar lógica para manipular os dados de áudio aqui
+    //            }
+    //        }
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        Debug.WriteLine($"Stream loop error: {ex.Message}");
+    //    }
+    //}
+
+}
 
 // Possível problema: só estão a aparecer na lista dispositivos que já tenham sido emparelhados
