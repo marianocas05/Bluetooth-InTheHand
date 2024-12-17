@@ -15,22 +15,22 @@ public partial class MainPage : ContentPage
         InitializeComponent();
     }
 
-    protected override void OnDisappearing()
-    {
-        base.OnDisappearing();
+    //protected override void OnDisappearing()
+    //{
+    //    base.OnDisappearing();
 
-        //Fechar recursos Bluetooth e fluxo
-        if (stream is not null)
-        {
-            stream.Dispose();
-            stream = null;
-        }
+    //    //Fechar recursos Bluetooth e fluxo
+    //    if (stream is not null)
+    //    {
+    //        stream.Dispose();
+    //        stream = null;
+    //    }
 
-        if (client.Connected)
-        {
-            client.Close();
-        }
-    }
+    //    if (client.Connected)
+    //    {
+    //        client.Close();
+    //    }
+    //}
 
     private async void OnConnectClicked(object sender, EventArgs e)
     {
@@ -44,7 +44,12 @@ public partial class MainPage : ContentPage
 
             //Tentar selecionar um dispositivo
             device = await picker.PickSingleDeviceAsync();
-            if (device != null)
+            if (device == null)
+            {
+                ConnectionStatusLabel.Text = "Status: Disconnected";
+                await DisplayAlert("No Device", "No device was selected or found.", "OK");
+            }
+            else
             {
                 //Verificar se o dispositivo já está emparelhado, caso contrário, emparelhar
                 if (!device.Authenticated)
@@ -70,24 +75,12 @@ public partial class MainPage : ContentPage
                     //await Task.Run(() => StreamLoop());
 
                     await Navigation.PushAsync(new DeviceInfoPage(device));
-
-
                 }
-                else
-                {
-                    ConnectionStatusLabel.Text = "Status: Disconnected";
-                    await DisplayAlert("Error", "Unable to connect to the device.", "OK");
-                }
-            }
-            else
-            {
-                ConnectionStatusLabel.Text = "Status: Disconnected";
-                await DisplayAlert("No Device", "No device was selected or found.", "OK");
             }
         }
         catch (Exception ex)
         {
-            await DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+            await DisplayAlert("Error", "Couldn't connect to the device", "OK");
             Debug.WriteLine($"Error: {ex.Message}");
         }
     }

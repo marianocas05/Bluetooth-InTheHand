@@ -8,10 +8,11 @@ public partial class DeviceInfoPage : ContentPage
     {
         InitializeComponent();
 
-        // Exibir as informações do dispositivo
+        //Mostrar as informações do dispositivo
         DeviceNameLabel.Text = $"{device.DeviceName}";
         DeviceAddressLabel.Text = $"Device Address: {device.DeviceAddress}";
         DeviceStatusLabel.Text = $"Status: {(device.Authenticated ? "Authenticated" : "Not Authenticated")}";
+        BatteryLevelLabel.Text = $"To be completed";
     }
 
     private async void OnBackButtonClicked(object sender, EventArgs e)
