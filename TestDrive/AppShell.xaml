@@ -17,4 +17,9 @@
         ContentTemplate="{DataTemplate local:DeviceInfoPage}"
         Route="DeviceInfoPage" />
 
+    <ShellContent
+        Title="Recording"
+        ContentTemplate="{DataTemplate local:RecordingPage}"
+        Route="RecordingPage" />
+
 </Shell>

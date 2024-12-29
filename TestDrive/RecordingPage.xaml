@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TestDrive.RecordingPage"
+             Shell.NavBarIsVisible="False">
+
+    <StackLayout Padding="20">
+        <!--Título da página-->
+        <Label Text="Audio Recorder"
+               FontSize="24"
+               HorizontalOptions="Center"
+               Margin="0,20,0,20" />
+
+        <!--Estado da gravação-->
+        <Label x:Name="StatusLabel"
+               Text="Ready to record"
+               FontSize="16"
+               HorizontalOptions="Center"
+               Margin="0,10,0,20"
+               TextColor="Black" />
+
+        <!--Selecionar o dispositivo-->
+        <Picker x:Name="DevicePicker" 
+                Title="Select Input Device" 
+                SelectedIndexChanged="DevicePicker_SelectedIndexChanged" />
+
+        <!--Botão para iniciar a gravação-->
+        <Button x:Name="StartButton"
+                Text="Start Recording"
+                Clicked="StartButton_Clicked"
+                BackgroundColor="Green"
+                TextColor="White" />
+
+        <!--Botão para parar a gravação-->
+        <Button x:Name="StopButton"
+                Text="Stop Recording"
+                Clicked="StopButton_Clicked"
+                BackgroundColor="Red"
+                TextColor="White"
+                IsEnabled="False"
+                Margin="0,20,0,0" />
+        
+    </StackLayout>
+</ContentPage>

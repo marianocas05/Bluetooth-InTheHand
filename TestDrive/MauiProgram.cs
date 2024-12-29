@@ -19,6 +19,10 @@ namespace TestDrive
     		builder.Logging.AddDebug();
 #endif
 
+#if WINDOWS
+    builder.Services.AddSingleton<BluetoothBatteryReader>();
+#endif
+
             return builder.Build();
         }
     }

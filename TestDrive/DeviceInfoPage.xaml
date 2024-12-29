@@ -52,6 +52,26 @@
                 </StackLayout>
             </Border>
 
+            <Button Text="Battery"
+                    FontSize="18"
+                    BackgroundColor="#4A90E2"
+                    TextColor="White"
+                    CornerRadius="25"
+                    WidthRequest="150"
+                    HeightRequest="50"
+                    HorizontalOptions="Center"
+                    Clicked="OnBatteryCheckClicked"/>
+            
+            <Button Text="Next"
+                    FontSize="18"
+                    BackgroundColor="#4A90E2"
+                    TextColor="White"
+                    CornerRadius="25"
+                    WidthRequest="150"
+                    HeightRequest="50"
+                    HorizontalOptions="Center"
+                    Clicked="OnNextButtonClicked"/>
+
             <Button Text="Back"
                     FontSize="18"
                     BackgroundColor="#4A90E2"
@@ -61,6 +81,7 @@
                     HeightRequest="50"
                     HorizontalOptions="Center"
                     Clicked="OnBackButtonClicked"/>
+
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>
