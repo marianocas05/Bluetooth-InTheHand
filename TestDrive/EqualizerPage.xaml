@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TestDrive.EqualizerPage"
+             Title="Equalizer">
+    <VerticalStackLayout Padding="20">
+        <Label Text="Equalizer" FontSize="24" HorizontalOptions="Center" />
+
+        <StackLayout Orientation="Horizontal" Spacing="10">
+            <Label Text="100 Hz" WidthRequest="70" VerticalOptions="Center" />
+            <Slider Minimum="-24" Maximum="24" Value="0" ValueChanged="OnSliderValueChanged" BindingContext="0" />
+            <Label x:Name="GainLabel_100Hz" Text="0 dB" VerticalOptions="Center" />
+        </StackLayout>
+
+        <StackLayout Orientation="Horizontal" Spacing="10">
+            <Label Text="1 kHz" WidthRequest="70" VerticalOptions="Center" />
+            <Slider Minimum="-24" Maximum="24" Value="0" ValueChanged="OnSliderValueChanged" BindingContext="1" />
+            <Label x:Name="GainLabel_1kHz" Text="0 dB" VerticalOptions="Center" />
+        </StackLayout>
+
+        <Button Text="Apply Equalizer" Clicked="OnApplyEqualizerClicked" />
+    </VerticalStackLayout>
+</ContentPage>

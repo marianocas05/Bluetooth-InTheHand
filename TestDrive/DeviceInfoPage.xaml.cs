@@ -11,17 +11,14 @@ public partial class DeviceInfoPage : ContentPage
 {
 #if WINDOWS
     private BluetoothBatteryReader _batteryReader;
-    private BluetoothDeviceInfo _device;
 #endif
 
-    public DeviceInfoPage(BluetoothDeviceInfo device)
+    public DeviceInfoPage(BluetoothDeviceInfo device, Stream stream)
     {
         InitializeComponent();
 #if WINDOWS
-        // Salvar o dispositivo recebido
-        _device = device;
         // Inicializar o leitor de bateria
-        _batteryReader = new BluetoothBatteryReader();
+        _batteryReader = new BluetoothBatteryReader(device,stream);
 #endif
 
         //Mostrar informações do dispositivo na interface
@@ -36,9 +33,8 @@ public partial class DeviceInfoPage : ContentPage
 #if WINDOWS
         try
         {
-            // Obter informações de bateria do dispositivo
-            string batteryStatus = await _batteryReader.GetBluetoothBatteryAsync();
-            BatteryLevelLabel.Text = batteryStatus; // Atualizar o rótulo com o status da bateria
+            string batteryStatus = await _batteryReader.GetBatteryStatusAsync();
+            BatteryLevelLabel.Text = batteryStatus;
             await DisplayAlert("Battery Status", batteryStatus, "OK");
         }
         catch (Exception ex)

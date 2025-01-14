@@ -74,7 +74,7 @@ public partial class MainPage : ContentPage
                     //Iniciar o loop de leitura do stream de bytes diretamente
                     //await Task.Run(() => StreamLoop());
 
-                    await Navigation.PushAsync(new DeviceInfoPage(device));
+                    await Navigation.PushAsync(new DeviceInfoPage(device,stream));
                 }
             }
         }
@@ -90,7 +90,7 @@ public partial class MainPage : ContentPage
     //    // Exemplo de loop de leitura do stream de bytes
     //    try
     //    {
-    //        byte[] buffer = new byte[1024]; 
+    //        byte[] buffer = new byte[1024];
     //        while (stream != null && stream.CanRead)
     //        {
     //            int bytesRead = stream.Read(buffer, 0, buffer.Length); // Lê bytes diretamente do stream

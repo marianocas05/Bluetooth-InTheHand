@@ -72,6 +72,9 @@
 	  <MauiXaml Update="DeviceInfoPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="EqualizerPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="RecordingPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

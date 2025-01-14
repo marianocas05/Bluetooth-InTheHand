@@ -1,61 +1,51 @@
-﻿using Windows.Devices.Bluetooth;
-using Windows.Devices.Enumeration;
-using Windows.Networking.Sockets;
-using Windows.Storage.Streams;
+﻿using InTheHand.Net.Sockets;
+using System.Text;
 
 public class BluetoothBatteryReader
 {
-    public async Task<string> GetBluetoothBatteryAsync()
+    private BluetoothDeviceInfo _device;
+    private Stream _stream;
+
+    public BluetoothBatteryReader(BluetoothDeviceInfo device, Stream stream)
+    {
+        _device = device;
+        _stream = stream;
+    }
+
+    public async Task<string> GetBatteryStatusAsync()
     {
         try
         {
-            //Encontrar dispositivos emparelhados
-            var devices = await DeviceInformation.FindAllAsync(
-                BluetoothDevice.GetDeviceSelectorFromPairingState(true));
+            if (_stream == null || !_stream.CanRead)
+                return "Error: Stream is not available.";
 
-            if (devices.Count == 0)
-                return "No paired devices found.";
+            //Enviar comando para obter status de bateria (se o dispositivo suportar)
+            byte[] batteryCommand = Encoding.ASCII.GetBytes("AT+BATT?\r\n"); // Exemplo de comando AT
+            await _stream.WriteAsync(batteryCommand, 0, batteryCommand.Length);
 
-            //Selecionar o primeiro dispositivo como exemplo
-            var deviceInfo = devices[0];
-            var device = await BluetoothDevice.FromIdAsync(deviceInfo.Id);
+            //Ler a resposta
+            byte[] responseBuffer = new byte[1024];
+            int bytesRead = await _stream.ReadAsync(responseBuffer, 0, responseBuffer.Length);
 
-            if (device == null)
-                return "Unable to connect to the selected device.";
-
-            //Obter serviços Rfcomm
-            var rfcommResult = await device.GetRfcommServicesAsync();
-            if (rfcommResult.Services.Count == 0)
-                return "No services found on the device.";
-
-            var selectedService = rfcommResult.Services[0];
-
-            //Criar um novo socket para a conexão
-            using (var socket = new StreamSocket())
+            if (bytesRead > 0)
             {
-                await socket.ConnectAsync(selectedService.ConnectionHostName, selectedService.ConnectionServiceName);
+                string response = Encoding.ASCII.GetString(responseBuffer, 0, bytesRead);
 
-                //Ler dados do serviço
-                var buffer = new Windows.Storage.Streams.Buffer(1024);
-                var result = await socket.InputStream.ReadAsync(buffer, buffer.Capacity, InputStreamOptions.Partial);
-                var reader = DataReader.FromBuffer(result);
-                var response = reader.ReadString(result.Length);
-
-                //Validar resposta
-                if (response.Contains("IPHONEACCEV"))
+                //Verificar se a resposta contém informações de bateria
+                if (response.Contains("BATT"))
                 {
-                    var batteryData = response.Substring(response.IndexOf("IPHONEACCEV"));
-                    var tokens = batteryData.Split(',');
+                    //Interpretar o valor da bateria
+                    int startIndex = response.IndexOf("BATT:") + 5;
+                    int endIndex = response.IndexOf("%", startIndex);
+                    string batteryLevel = response.Substring(startIndex, endIndex - startIndex).Trim();
 
-                    if (tokens.Length >= 6 &&
-                        int.TryParse(tokens[3], out int leftBattery) &&
-                        int.TryParse(tokens[5], out int rightBattery))
-                    {
-                        return $"Battery Levels - Left: {leftBattery * 10}%, Right: {rightBattery * 10}%";
-                    }
+                    return $"Battery Level: {batteryLevel}%";
                 }
-                return "Battery data not available or unsupported format.";
+
+                return "Battery information not available.";
             }
+
+            return "No response from device.";
         }
         catch (Exception ex)
         {
@@ -63,4 +53,3 @@ public class BluetoothBatteryReader
         }
     }
 }
-

@@ -41,7 +41,9 @@
 
   <Capabilities>
     <rescap:Capability Name="runFullTrust" />
-    <DeviceCapability Name="bluetooth"/>
+	<Capability Name="bluetooth" />
+	<DeviceCapability Name="bluetooth.genericAttributeProfile" />
+	<DeviceCapability Name="bluetooth.rfcomm" />
   </Capabilities>
 
 </Package>
