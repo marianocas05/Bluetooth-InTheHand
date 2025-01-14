@@ -11,11 +11,11 @@ public class AudioRecorder
 
     public void StartRecording()
     {
-        ConfigureDevice(); // Certifica-se de que está configurado o dispositivo correto
+        ConfigureDevice(); //Certifica-se de que está configurado o dispositivo correto
 
         outputFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "recording.wav");
 
-        waveIn.WaveFormat = new WaveFormat(44100, 1); // Configuração padrão
+        waveIn.WaveFormat = new WaveFormat(44100, 1); //Configuração padrão
         waveIn.DataAvailable += (s, e) =>
         {
             writer?.Write(e.Buffer, 0, e.BytesRecorded);
@@ -35,7 +35,7 @@ public class AudioRecorder
 
         waveIn = new WaveInEvent
         {
-            DeviceNumber = InputDeviceIndex // Configura o dispositivo
+            DeviceNumber = InputDeviceIndex //Configura o dispositivo
         };
     }
 

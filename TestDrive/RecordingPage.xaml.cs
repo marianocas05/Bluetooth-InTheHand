@@ -11,7 +11,6 @@ public partial class RecordingPage : ContentPage
         recorder = new AudioRecorder();
         deviceManager = new AudioDeviceManager();
 
-#if WINDOWS
         var inputDevices = deviceManager.ListInputDevices();
         foreach (var device in inputDevices)
         {
@@ -22,7 +21,6 @@ public partial class RecordingPage : ContentPage
         {
             DevicePicker.SelectedIndex = 0;
         }
-#endif
     }
 
     private void DevicePicker_SelectedIndexChanged(object sender, EventArgs e)
