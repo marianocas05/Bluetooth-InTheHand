@@ -44,6 +44,8 @@
 	<Capability Name="bluetooth" />
 	<DeviceCapability Name="bluetooth.genericAttributeProfile" />
 	<DeviceCapability Name="bluetooth.rfcomm" />
+    <DeviceCapability Name="microphone"/>
+    <DeviceCapability Name="bluetooth"/>
   </Capabilities>
 
 </Package>

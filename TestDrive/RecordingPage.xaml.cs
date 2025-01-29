@@ -61,14 +61,14 @@ public partial class RecordingPage : ContentPage
     {
         //try
         //{
-            recorder.StopRecording();
-            StartButton.IsEnabled = true;
-            StopButton.IsEnabled = false;
+        recorder.StopRecording();
+        StartButton.IsEnabled = true;
+        StopButton.IsEnabled = false;
 
-            string filePath = recorder.GetFilePath();
-            //DisplayAlert("Recording Stopped", $"Audio saved to: {recorder.GetFilePath()}", "OK");
+        string filePath = recorder.GetFilePath();
+        //DisplayAlert("Recording Stopped", $"Audio saved to: {recorder.GetFilePath()}", "OK");
 
-            await Navigation.PushAsync(new EqualizerPage(filePath));
+        await Navigation.PushAsync(new EqualizerPage(filePath));
 
         //}
         //catch (Exception ex)

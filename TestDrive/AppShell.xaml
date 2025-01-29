@@ -23,6 +23,11 @@
         Route="RecordingPage" />
 
     <ShellContent
+        Title="Recording"
+        ContentTemplate="{DataTemplate local:RecordingPage2}"
+        Route="RecordingPage2" />
+
+    <ShellContent
         Title="Equalizer"
         ContentTemplate="{DataTemplate local:EqualizerPage}"
         Route="EqualizerPage" />

@@ -1,5 +1,6 @@
 using InTheHand.Net.Sockets;
 using Microsoft.Maui.Controls;
+using Plugin.Maui.Audio;
 
 #if WINDOWS
 using Windows.Devices.Bluetooth;
@@ -13,9 +14,16 @@ public partial class DeviceInfoPage : ContentPage
     private BluetoothBatteryReader _batteryReader;
 #endif
 
+    private readonly BluetoothDeviceInfo _device;
+    private readonly Stream _stream;
+
     public DeviceInfoPage(BluetoothDeviceInfo device, Stream stream)
     {
         InitializeComponent();
+
+        _device = device;
+        _stream = stream;
+
 #if WINDOWS
         // Inicializar o leitor de bateria
         _batteryReader = new BluetoothBatteryReader(device,stream);
@@ -54,6 +62,13 @@ public partial class DeviceInfoPage : ContentPage
 
     private async void OnNextButtonClicked(object sender, EventArgs e)
     {
+#if WINDOWS
         await Navigation.PushAsync(new RecordingPage());
     }
+#else
+        var audioManager = new AudioManager();
+        await Navigation.PushAsync(new RecordingPage2(audioManager, _device, _stream));
+        //await Navigation.PushAsync(new RecordingPage());
+    }
+ #endif  
 }

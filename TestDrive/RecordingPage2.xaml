@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TestDrive.RecordingPage2"
+             BackgroundColor="White"
+             Title="Recording Page">
+
+    <VerticalStackLayout Padding="20" Spacing="25">
+
+        <Label Text="Record Audio"
+               FontSize="24"
+               HorizontalOptions="Center"
+               VerticalOptions="Start" />
+
+        <Label x:Name="DeviceInfoLabel" Text="Device Info" FontSize="16" TextColor="Gray" />
+
+        <Label Text="Press the button to start/stop the recording."
+               FontSize="16"
+               TextColor="Gray"
+               HorizontalOptions="Center"
+               VerticalOptions="Start" />
+
+        <Button x:Name="RecordButton"
+                Text="Start"
+                FontSize="18"
+                BackgroundColor="Blue"
+                TextColor="White"
+                CornerRadius="10"
+                Padding="10"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                Clicked="OnRecordClicked" />
+
+        <Label x:Name="RecordingStatusLabel"
+               Text="Status: Idle"
+               FontSize="16"
+               TextColor="Gray"
+               HorizontalOptions="Center"
+               VerticalOptions="Center" />
+
+    </VerticalStackLayout>
+</ContentPage>

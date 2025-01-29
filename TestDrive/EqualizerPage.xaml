@@ -3,21 +3,40 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="TestDrive.EqualizerPage"
              Title="Equalizer">
-    <VerticalStackLayout Padding="20">
+
+    <ContentPage.Resources>
+        <!-- DataTemplate para cada item da ListView -->
+        <ResourceDictionary>
+            <DataTemplate x:Key="EqualizerBandTemplate">
+                <ViewCell>
+                    <StackLayout Orientation="Horizontal" Padding="5">
+                        <!-- Frequência da banda -->
+                        <Label Text="{Binding Frequency, StringFormat='{}{0} Hz'}" VerticalOptions="Center" />
+
+                        <!-- Entry para inserir o ganho -->
+                        <Entry Text="{Binding Gain, Mode=TwoWay}" 
+                   Keyboard="Numeric" 
+                   TextChanged="OnGainTextChanged"
+                   WidthRequest="80"
+                   VerticalOptions="Center" />
+
+                        <!-- Exibe o valor do ganho -->
+                        <Label Text="{Binding Gain, StringFormat='{}{0:F1} dB'}" VerticalOptions="Center" />
+                    </StackLayout>
+                </ViewCell>
+            </DataTemplate>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <StackLayout Padding="10">
         <Label Text="Equalizer" FontSize="24" HorizontalOptions="Center" />
 
-        <StackLayout Orientation="Horizontal" Spacing="10">
-            <Label Text="100 Hz" WidthRequest="70" VerticalOptions="Center" />
-            <Slider Minimum="-24" Maximum="24" Value="0" ValueChanged="OnSliderValueChanged" BindingContext="0" />
-            <Label x:Name="GainLabel_100Hz" Text="0 dB" VerticalOptions="Center" />
-        </StackLayout>
+        <!-- ListView para exibir os sliders (agora usando Entry para texto) -->
+        <ListView x:Name="BandsListView" 
+                  ItemTemplate="{StaticResource EqualizerBandTemplate}">
+        </ListView>
 
-        <StackLayout Orientation="Horizontal" Spacing="10">
-            <Label Text="1 kHz" WidthRequest="70" VerticalOptions="Center" />
-            <Slider Minimum="-24" Maximum="24" Value="0" ValueChanged="OnSliderValueChanged" BindingContext="1" />
-            <Label x:Name="GainLabel_1kHz" Text="0 dB" VerticalOptions="Center" />
-        </StackLayout>
-
-        <Button Text="Apply Equalizer" Clicked="OnApplyEqualizerClicked" />
-    </VerticalStackLayout>
+        <Button Text="Aplicar Equalizador"
+                Clicked="OnApplyEqualizerClicked" />
+    </StackLayout>
 </ContentPage>
